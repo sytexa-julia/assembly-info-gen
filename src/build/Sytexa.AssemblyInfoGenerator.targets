@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+        <Exec 
+            Condition="Exists('$(DevEnvDir)TextTransform.exe')"
+            Command="&quot;$(DevEnvDir)TextTransform.exe&quot; -a !!BuildConfiguration!$(Configuration) -a !!ProjectFilePath!$(MSBuildProjectFullPath) -a !!OutputFilePath!$(ProjectDir)Properties\AssemblyInfo.cs &quot;$(NuGetPackageRoot)Sytexa.AssemblyInfoGenerator\1.0.0\content\Properties\AssemblyInfo.tt&quot; -out &quot;$(ProjectDir)Properties\AssemblyInfo.cs&quot;" />
+        <Exec
+            Condition="!Exists('$(DevEnvDir)TextTransform.exe')"
+            Command="&quot;$(NuGetPackageRoot)Sytexa.AssemblyInfoGenerator\1.0.0\tools\T4\TextTransform.exe&quot; -a !!BuildConfiguration!$(Configuration) -a !!ProjectFilePath!$(MSBuildProjectFullPath) -a !!OutputFilePath!$(ProjectDir)Properties\AssemblyInfo.cs &quot;$(NuGetPackageRoot)Sytexa.AssemblyInfoGenerator\1.0.0\content\Properties\AssemblyInfo.tt&quot; -out &quot;$(ProjectDir)Properties\AssemblyInfo.cs&quot;" />
+    </Target>
+</Project>

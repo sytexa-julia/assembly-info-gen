@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+    <ItemGroup>
+        <Content Update="$(NuGetPackageRoot)sytexa.assemblyinfogenerator\1.0.0\content\Properties\AssemblyInfo.tt">
+            <Link>Properties\AssemblyInfo.tt</Link>
+            <Generator>TextTemplatingFileGenerator</Generator>
+        </Content>
+    </ItemGroup>
+</Project>

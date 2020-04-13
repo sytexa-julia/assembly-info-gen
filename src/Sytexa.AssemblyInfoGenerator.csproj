@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <PackageId>Sytexa.AssemblyInfoGenerator</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Sytexa LLC</Authors>
+        <Company>Sytexa LLC</Company>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <NuspecFile>Sytexa.AssemblyInfoGenerator.nuspec</NuspecFile>
+    </PropertyGroup>
+
+</Project>
