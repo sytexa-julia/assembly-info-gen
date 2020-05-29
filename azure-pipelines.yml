@@ -23,25 +23,11 @@ steps:
 
 - task: VSBuild@1
   inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:DesktopBuildPackageLocation="$(build.artifactStagingDirectory)\WebApp.zip" /p:DeployIisAppPath="Default Web Site"'
+    solution: '$(project)'
+    msbuildArgs: '/p:GeneratePackageOnBuild=true /p:NuspecFile=Sytexa.AssemblyInfoGenerator.nuspec /p:OutDir=$(buildArtifactStagingDirectory)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: false
-    projects: '**/*.csproj'
-    arguments: '--configuration $(Build.Configuration) --output $(Build.ArtifactStagingDirectory)'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'pack'
-    packagesToPack: '**/Sytexa.AssemblyInfoGenerator.nuspec'
-    nobuild: true
-    versioningScheme: 'byPrereleaseNumber'
-    majorVersion: '1'
-    minorVersion: '0'
-    patchVersion: '0'
+
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
