@@ -24,9 +24,16 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(project)'
-    msbuildArgs: '/p:GeneratePackageOnBuild=true /p:NuspecFile=Sytexa.AssemblyInfoGenerator.nuspec /p:OutDir=$(Build.ArtifactStagingDirectory)'
+    msbuildArgs: '/p:GeneratePackageOnBuild=true /p:NuspecFile=Sytexa.AssemblyInfoGenerator.nuspec'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '**/*.csproj'
+    arguments: '--configuration $(Build.Configuration) --output $(Build.ArtifactStagingDirectory)'
 
 - task: NuGetCommand@2
   inputs:
