@@ -10,7 +10,7 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
+  project: '**/*.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -24,11 +24,13 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(project)'
-    msbuildArgs: '/p:GeneratePackageOnBuild=true /p:NuspecFile=Sytexa.AssemblyInfoGenerator.nuspec /p:OutDir=$(buildArtifactStagingDirectory)'
+    msbuildArgs: '/p:GeneratePackageOnBuild=true /p:NuspecFile=Sytexa.AssemblyInfoGenerator.nuspec /p:OutDir=$(Build.ArtifactStagingDirectory)'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: VSTest@2
+- task: NuGetCommand@2
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '787f3102-588d-4c1f-ad89-3eb36bbdb7ba'
