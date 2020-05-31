@@ -17,11 +17,17 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'publish'
+    command: 'build'
     publishWebProjects: false
     projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    arguments: '--configuration $(buildConfiguration)'
     zipAfterPublish: false
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'NuGet Package'
+    publishLocation: 'Container'
 
 - task: NuGetCommand@2
   inputs:
