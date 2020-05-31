@@ -10,24 +10,10 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
-  project: '**/*.csproj'
-  buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
 - task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(project)'
-    msbuildArgs: '/p:GeneratePackageOnBuild=true /p:NuspecFile=Sytexa.AssemblyInfoGenerator.nuspec'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   inputs:
@@ -35,10 +21,12 @@ steps:
     publishWebProjects: false
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: false
 
 - task: NuGetCommand@2
   inputs:
     command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
     nuGetFeedType: 'internal'
     publishVstsFeed: '787f3102-588d-4c1f-ad89-3eb36bbdb7ba'
+
